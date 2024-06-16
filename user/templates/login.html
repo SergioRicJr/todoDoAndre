@@ -17,27 +17,32 @@
         font-size: 1.5rem;
         font-weight: bold;
         margin-bottom: 20px;
+        text-align: center;
     }
 
     .login-btn {
         margin-top: 20px;
-        max-width: 300px;
-        width: 100%;
+        max-width: 100%;
     }
 
     .form-group {
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
         text-align: left;
     }
 
     .form-group label {
         margin-bottom: 0.5rem;
         width: 100%;
+        font-weight: bold;
     }
 
     .form-group input {
         width: 100%;
         max-width: 100%;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        border-radius: 0.25rem;
+        border: 1px solid #ced4da;
     }
 
     .button-container {
@@ -50,19 +55,19 @@
     <div class="col-md-6 col-lg-4">
         <div class="card login-card">
             <div class="card-body">
-                <h2 class="text-center login-header">Login</h2>
+                <h2 class="login-header">Login</h2>
                 <form action="{% url 'Login'%}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="form-group">
-                        <label for="id_username">Username</label>
-                        {{ form.username }}
+                        <label for="id_username">Nome de Usuário</label>
+                        <input type="text" class="form-control" id="id_username" name="username" placeholder="Digite o nome de usuário">
                     </div>
                     <div class="form-group">
-                        <label for="id_password">Password</label>
-                        {{ form.password }}
+                        <label for="id_password">Senha</label>
+                        <input type="password" class="form-control" id="id_password" name="password" placeholder="Digite a senha">
                     </div>
                     <div class="button-container">
-                        <button type="submit" class="btn btn-primary login-btn">Login</button>
+                        <button type="submit" class="btn btn-primary login-btn">Entrar</button>
                     </div>
                 </form>
             </div>

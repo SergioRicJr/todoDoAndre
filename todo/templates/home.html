@@ -2,35 +2,35 @@
 
 {% block content %}
 
-<h1>Task</h1>
+<h1 class="mb-4">Lista de Tarefas</h1>
 
-<div class="d-flex justify-content-start flex-wrap">
-
+<div class="row">
     {% for task in tasks %}
-    <div class="col-md-4 p-2">
-        <div class="card">
-            <div class="card-header">
-                Title: {{ task.name }}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow">
+            <div class="card-header bg-primary text-white">
+                {{ task.name }}
             </div>
-            <div>
+            <div class="card-body">
                 <p class="card-text">
-                    Date: {{ task.due_date }} <br />
-                    Description: {{ task.description }} <br />
-                    Completed: {{ task.completed }} <br />
+                    <strong>Data:</strong> {{ task.due_date }} <br>
+                    <strong>Descrição:</strong> {{ task.description }} <br>
+                    <strong>Concluída:</strong> {{ task.completed|yesno:"Sim,Não" }}
                 </p>
-                
-                <div style="display: flex; justify-content: center; align-items: center;">
-                    <form method="post" action="/tasks/delete/" style="margin-right: 10px;">
+            </div>
+            <div class="card-footer">
+                <div class="d-flex justify-content-between">
+                    <form method="post" action="/tasks/delete/" class="mr-2">
                         {% csrf_token %}
                         <input type="hidden" name="additional_field" value="{{ task.id }}">
-                        <button type="submit" class="btn btn-danger">Excluir</button>
+                        <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
                     </form>
-                    <a href="{% url 'Task Update' pk=task.id %}" class="btn btn-primary">Editar</a>
+                    <a href="{% url 'Task Update' pk=task.id %}" class="btn btn-sm btn-primary">Editar</a>
                 </div>
             </div>
         </div>
     </div>
     {% endfor %}
-    
 </div>
+
 {% endblock content %}
