@@ -16,6 +16,7 @@ from core.repository import Repository
 from .serializers import UserSerializer
 from .forms import UserForm, UserLoginForm, UserUpdateForm
 
+
 class UserDeleteView(View):
     authenticate = False
 
@@ -25,20 +26,16 @@ class UserDeleteView(View):
         print(error_code)
 
         if error_code == 0:
-            user = getAuthenticatedUser(cookie_token)
+            self.user = getAuthenticatedUser(cookie_token)
             self.authenticate = True
 
         return super().dispatch(request, *args, **kwargs)
 
-    def post(self, request):
-        if not self.authenticate:
-            return redirect("Login")
-        additional_value = request.POST.get("additional_field")
-        print(additional_value)
+    def get(self, request):
         userRepository = Repository("user")
-        user = userRepository.findOneById(additional_value)
+        user = userRepository.findOneById(self.user)
         userRepository.delete(user)
-        return redirect("User View")
+        return redirect("Login")
 
 
 class UserUpdate(View):
@@ -50,21 +47,19 @@ class UserUpdate(View):
         # print(error_code)
 
         if error_code == 0:
-            user = getAuthenticatedUser(cookie_token)
+            self.user = getAuthenticatedUser(cookie_token)
             self.authenticate = True
 
         return super().dispatch(request, *args, **kwargs)
 
-    def get(self, request, pk):
+    def get(self, request):
         if not self.authenticate:
             return redirect("Login")
         userForm = UserUpdateForm()
 
-        return render(
-            request, "user_update_form.html", {"form": userForm, "primary_key": pk}
-        )
+        return render(request, "user_update_form.html", {"form": userForm})
 
-    def post(self, request, pk):
+    def post(self, request):
         if not self.authenticate:
             return redirect("Login")
         userForm = UserUpdateForm(request.POST)
@@ -75,8 +70,8 @@ class UserUpdate(View):
             if valor is not None and valor != "":
                 dados_preenchidos[campo] = valor
         repository = Repository(collection_name="user")
-        repository.update(pk, dados_preenchidos)
-        return redirect("User View")
+        repository.update(self.user, dados_preenchidos)
+        return redirect("Task View")
 
 
 class UserInsert(View):
@@ -120,6 +115,7 @@ class UserLogin(View):
         else:
             print(userForm.errors)
         return response
+
 
 class UserLogout(View):
     def get(self, request):
