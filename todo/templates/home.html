@@ -1,4 +1,4 @@
-{% extends "main.html" %}
+{% extends "main_in.html" %}
 
 {% block content %}
 
@@ -10,12 +10,11 @@
     <div class="col-md-4 p-2">
         <div class="card">
             <div class="card-header">
-                Temperature: {{ weather.temperature }}
+                Title: {{ task.name }}
             </div>
             <div>
                 <p class="card-text">
                     Date: {{ task.due_date }} <br />
-                    Name: {{ task.name }} <br />
                     Description: {{ task.description }} <br />
                     Completed: {{ task.completed }} <br />
                 </p>
@@ -23,7 +22,7 @@
                 <div style="display: flex; justify-content: center; align-items: center;">
                     <form method="post" action="/tasks/delete/" style="margin-right: 10px;">
                         {% csrf_token %}
-                        <input type="hidden" name="additional_field" value="{{ weather.id }}">
+                        <input type="hidden" name="additional_field" value="{{ task.id }}">
                         <button type="submit" class="btn btn-danger">Excluir</button>
                     </form>
                     <a href="{% url 'Task Update' pk=task.id %}" class="btn btn-primary">Editar</a>
