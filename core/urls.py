@@ -1,22 +1,18 @@
-"""
-URL configuration for core project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path
 
+from todo.views import TaskDeleteView, TaskInsert, TaskUpdate, TaskView
+from user.views import UserDeleteView, UserInsert, UserLogin, UserLogout, UserUpdate
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
+    path("", TaskView.as_view(), name="Task View"),
+    path("insert", TaskInsert.as_view(), name="Task Insert"),
+    path("tasks/delete/", TaskDeleteView.as_view(), name="delete_task"),
+    path("update/<pk>", TaskUpdate.as_view(), name="Task Update"),
+    path("user_insert", UserInsert.as_view(), name="User Insert"),
+    path("user/delete/", UserDeleteView.as_view(), name="User Delete View"),
+    path("user_update/", UserUpdate.as_view(), name="User Update"),
+    path("login", UserLogin.as_view(), name="Login"),
+    path("logout", UserLogout.as_view(), name="Logout")
 ]

@@ -1,0 +1,36 @@
+{% extends "main_in.html" %}
+
+{% block content %}
+
+<h1 class="mb-4">Lista de Tarefas</h1>
+
+<div class="row">
+    {% for task in tasks %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow">
+            <div class="card-header bg-primary text-white">
+                {{ task.name }}
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    <strong>Data:</strong> {{ task.due_date }} <br>
+                    <strong>Descrição:</strong> {{ task.description }} <br>
+                    <strong>Concluída:</strong> {{ task.completed|yesno:"Sim,Não" }}
+                </p>
+            </div>
+            <div class="card-footer">
+                <div class="d-flex justify-content-between">
+                    <form method="post" action="/tasks/delete/" class="mr-2">
+                        {% csrf_token %}
+                        <input type="hidden" name="additional_field" value="{{ task.id }}">
+                        <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
+                    </form>
+                    <a href="{% url 'Task Update' pk=task.id %}" class="btn btn-sm btn-primary">Editar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock content %}

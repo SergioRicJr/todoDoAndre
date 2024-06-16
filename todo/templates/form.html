@@ -1,0 +1,103 @@
+{% extends "main_in.html" %}
+
+{% block content %}
+
+<style>
+    .task-form-container {
+        margin-top: 50px;
+    }
+
+    .task-card {
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .task-header {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .task-btn {
+        margin-top: 20px;
+        max-width: 100%;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+        text-align: left;
+    }
+
+    .form-group label {
+        margin-bottom: 0.5rem;
+        width: 100%;
+        font-weight: bold;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="date"] {
+        width: 100%;
+        max-width: 100%;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        border-radius: 0.25rem;
+        border: 1px solid #ced4da;
+    }
+
+    .form-group .form-check-input {
+        margin-top: 0.3rem;
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    /* Estilo adicional para centralizar o botão */
+    .card-footer {
+        text-align: center;
+    }
+
+    .card-footer .btn {
+        width: 100%; /* Garante que o botão ocupa a largura do card-footer */
+        max-width: 200px; /* Define um máximo de largura para o botão */
+    }
+</style>
+
+<div class="row justify-content-center task-form-container">
+    <div class="col-md-8">
+        <h1 class="task-header mb-4">Inserir Tarefa</h1>
+        <form action="{% url 'Task Insert' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="card task-card shadow">
+                <div class="card-body">
+                    {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {% if field.name == 'description' %}
+                        <textarea class="form-control" id="{{ field.id_for_label }}" name="{{ field.name }}" rows="3"></textarea>
+                        {% elif field.name == 'due_date' %}
+                        <input type="date" class="form-control" id="{{ field.id_for_label }}" name="{{ field.name }}">
+                        {% elif field.name == 'completed' %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="{{ field.id_for_label }}" name="{{ field.name }}">
+                            <label class="form-check-label" for="{{ field.id_for_label }}">
+                                Concluída
+                            </label>
+                        </div>
+                        {% else %}
+                        <input type="text" class="form-control" id="{{ field.id_for_label }}" name="{{ field.name }}">
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary task-btn">Salvar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}
