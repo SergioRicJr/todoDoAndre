@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 
 from todo.views import TaskDeleteView, TaskInsert, TaskUpdate, TaskView
-from user.views import UserDeleteView, UserInsert, UserLogin, UserUpdate
+from user.views import UserDeleteView, UserInsert, UserLogin, UserLogout, UserUpdate
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -14,4 +14,5 @@ urlpatterns = [
     path("user/delete/", UserDeleteView.as_view(), name="User Delete View"),
     path("user_update/<pk>", UserUpdate.as_view(), name="User Update"),
     path("login", UserLogin.as_view(), name="Login"),
+    path("logout", UserLogout.as_view(), name="Logout")
 ]
