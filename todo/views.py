@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect
 from user.authentication import getAuthenticatedUser, verifyToken
 from .models import TaskEntity
 from core.repository import Repository
-from .serializers import TaskSerializer
+from .serializers import TaskSerializer, TaskUpdateSerializer
 from .forms import TaskForm, TaskUpdateForm
 
 
@@ -21,7 +21,7 @@ class TaskView(View):
         print(error_code)
 
         if error_code == 0:
-            user = getAuthenticatedUser(cookie_token)
+            self.user = getAuthenticatedUser(cookie_token)
             self.authenticate = True
 
         return super().dispatch(request, *args, **kwargs)
@@ -30,17 +30,18 @@ class TaskView(View):
         if not self.authenticate:
             return redirect("Login")
         repository = Repository(collection_name="tasks")
-        tasks = list(repository.getAll())
+        tasks = list(repository.getByAttribute("user_id", self.user))
         serializer = TaskSerializer(data=tasks, many=True)
         if serializer.is_valid():
             modelTask = serializer.save()
             tasks = [
-                {**obj, "id": obj.pop("_id")} if "_id" in obj else obj
-                for obj in tasks
+                {**obj, "id": obj.pop("_id")} if "_id" in obj else obj for obj in tasks
             ]
         else:
             print(serializer.errors)
-        return render(request, "home.html", {"weathers": tasks})
+        return render(
+            request, "home.html", {"tasks": tasks, "authenticate": self.authenticate}
+        )
 
 
 class TaskDeleteView(View):
@@ -94,15 +95,15 @@ class TaskUpdate(View):
         if not self.authenticate:
             return redirect("Login")
         taskForm = TaskUpdateForm(request.POST)
-        serializer = TaskSerializer(data=taskForm.data)
+        serializer = TaskUpdateSerializer(data=taskForm.data)
         serializer.is_valid(raise_exception=True)
         dados_preenchidos = {}
         for campo, valor in serializer.data.items():
             if valor is not None and valor != "":
                 dados_preenchidos[campo] = valor
-        repository = Repository(collection_name="weathers")
+        repository = Repository(collection_name="tasks")
         repository.update(pk, dados_preenchidos)
-        return redirect("Weather View")
+        return redirect("Task View")
 
 
 class TaskInsert(View):
@@ -111,10 +112,9 @@ class TaskInsert(View):
     def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any):
         cookie_token = request.COOKIES.get("auth_token", "Cookie not found")
         error_code, _ = verifyToken(cookie_token)
-        print(error_code)
 
         if error_code == 0:
-            user = getAuthenticatedUser(cookie_token)
+            self.user = getAuthenticatedUser(cookie_token)
             self.authenticate = True
 
         return super().dispatch(request, *args, **kwargs)
@@ -131,7 +131,12 @@ class TaskInsert(View):
             return redirect("Login")
         taskForm = TaskForm(request.POST)
         if taskForm.is_valid():
-            serializer = TaskSerializer(data=taskForm.data)
+            novo_dicionario = {
+                chave: valor[0] for chave, valor in dict(taskForm.data).items()
+            }
+            novo_dicionario.update({"user_id": self.user})
+            print(novo_dicionario)
+            serializer = TaskSerializer(data=novo_dicionario)
             if serializer.is_valid():
                 repository = Repository(collection_name="tasks")
                 repository.insert(serializer.data)
