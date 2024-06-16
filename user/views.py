@@ -120,3 +120,9 @@ class UserLogin(View):
         else:
             print(userForm.errors)
         return response
+
+class UserLogout(View):
+    def get(self, request):
+        response = redirect("Login")
+        response.set_cookie("auth_token", "", max_age=3600)
+        return response
