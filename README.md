@@ -91,7 +91,7 @@ Após iniciar a aplicação, existem formas de acessar e testar, que são as seg
 
 - Através do Postman, onde acessando com a mesma url da forma anterior, te traz uma forma diferente de acesso aos dados e facilidade no teste. Para isso, siga estes passos:
 
-- Abra a collection ... no postman
+- Abra a collection `todoDoAndre.postman_collection.json` no postman
 - Faça a requisição chamada get_crfstoken
 - Acesse a aba de cookies e pegue o crfstoken recebido
 - Em todas as requisições adicione no header a chave "X-CSRFToken" com o valor do csfstoken recebido
