@@ -1,0 +1,36 @@
+{% extends "main_in.html" %}
+
+{% block content %}
+
+<h1>Task</h1>
+
+<div class="d-flex justify-content-start flex-wrap">
+
+    {% for task in tasks %}
+    <div class="col-md-4 p-2">
+        <div class="card">
+            <div class="card-header">
+                Title: {{ task.name }}
+            </div>
+            <div>
+                <p class="card-text">
+                    Date: {{ task.due_date }} <br />
+                    Description: {{ task.description }} <br />
+                    Completed: {{ task.completed }} <br />
+                </p>
+                
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <form method="post" action="/tasks/delete/" style="margin-right: 10px;">
+                        {% csrf_token %}
+                        <input type="hidden" name="additional_field" value="{{ task.id }}">
+                        <button type="submit" class="btn btn-danger">Excluir</button>
+                    </form>
+                    <a href="{% url 'Task Update' pk=task.id %}" class="btn btn-primary">Editar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    
+</div>
+{% endblock content %}

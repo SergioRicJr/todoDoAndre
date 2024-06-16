@@ -112,7 +112,7 @@ class UserLogin(View):
             auth = authenticate(data["username"], data["password"])
             if auth:
                 token = generateToken(str(auth["_id"]), auth["username"])
-                response = redirect("Login")
+                response = redirect("Task View")
                 response.set_cookie("auth_token", token, max_age=3600)
             else:
                 response = redirect("Login")

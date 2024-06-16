@@ -48,4 +48,4 @@ def getAuthenticatedUser(token):
 
     if payload is not None:
         # recuperar o usuario no banco
-        return UserEntity(username=payload["username"])
+        return payload["id"]

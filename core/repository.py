@@ -24,7 +24,8 @@ class Repository:
         return document
 
     def getByAttribute(self, attribute, value):
-        document = self.getCollection().find_one({f"{attribute}": value})
+        document = self.getCollection().find({f"{attribute}": value})
+        return document
 
     def delete(self, document) -> None:
         self.getCollection().delete_one(document)
