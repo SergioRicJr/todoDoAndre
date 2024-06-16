@@ -1,4 +1,4 @@
-{% extends "main.html" %}
+{% extends "main_in.html" %}
 
 {% block title %}Update User{% endblock %}
 
@@ -8,7 +8,7 @@
         <h2 class="text-center mt-4">Create User</h2>
         <div class="card mt-4">
             <div class="card-body">
-                <form action="{% url 'User Update' pk=primary_key %}" method="post" enctype="multipart/form-data">
+                <form action="{% url 'User Update'%}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="form-group">
                         <label for="id_username">Username</label>
