@@ -12,7 +12,7 @@ urlpatterns = [
     path("update/<pk>", TaskUpdate.as_view(), name="Task Update"),
     path("user_insert", UserInsert.as_view(), name="User Insert"),
     path("user/delete/", UserDeleteView.as_view(), name="User Delete View"),
-    path("user_update/<pk>", UserUpdate.as_view(), name="User Update"),
+    path("user_update/", UserUpdate.as_view(), name="User Update"),
     path("login", UserLogin.as_view(), name="Login"),
     path("logout", UserLogout.as_view(), name="Logout")
 ]
