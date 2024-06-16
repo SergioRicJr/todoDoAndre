@@ -8,7 +8,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", TaskView.as_view(), name="Task View"),
     path("insert", TaskInsert.as_view(), name="Task Insert"),
-    path("weather/delete/", TaskDeleteView.as_view(), name="delete_task"),
+    path("tasks/delete/", TaskDeleteView.as_view(), name="delete_task"),
     path("update/<pk>", TaskUpdate.as_view(), name="Task Update"),
     path("user_insert", UserInsert.as_view(), name="User Insert"),
     path("user/delete/", UserDeleteView.as_view(), name="User Delete View"),
