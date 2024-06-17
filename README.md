@@ -28,7 +28,7 @@ Este é um projeto FullStack, com API e FrontEnd para gerenciamento de usuários
 - `/update/<pk>`: atualiza uma tarefas
 - `/user_insert`: cria uma conta de usuário
 - `/user/delete/`: deleta sua conta
-- `/user_update/<pk>`: atualiza informações de conta
+- `/user_update/`: atualiza informações da conta
 - `login`: acessa a aplicação através de credenciais
 - `logout`: apaga os token do navegador
 
