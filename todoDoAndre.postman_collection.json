@@ -177,7 +177,7 @@
 					]
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/user_update/<pk>",
+					"raw": "http://127.0.0.1:8000/user_update/",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -188,7 +188,7 @@
 					"port": "8000",
 					"path": [
 						"user_update",
-						"<pk>"
+						""
 					]
 				}
 			},
@@ -205,16 +205,6 @@
 						"type": "text"
 					}
 				],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "additional_field",
-							"value": "id do usuário",
-							"type": "text"
-						}
-					]
-				},
 				"url": {
 					"raw": "http://127.0.0.1:8000/user/delete/",
 					"protocol": "http",
@@ -393,6 +383,16 @@
 						"type": "text"
 					}
 				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "additional_field",
+							"value": "id da task",
+							"type": "text"
+						}
+					]
+				},
 				"url": {
 					"raw": "http://127.0.0.1:8000/tasks/delete/",
 					"protocol": "http",
